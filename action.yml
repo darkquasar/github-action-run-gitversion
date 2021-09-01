@@ -1,4 +1,4 @@
-name: 'Run GitVersion v2'
+name: 'RunGitVersion'
 description: 'Runs GitVersion and returns output variables'
 inputs:
   nofetch: # id of input
