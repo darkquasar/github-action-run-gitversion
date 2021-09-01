@@ -65,6 +65,7 @@ if [ $result -ne 0 ]; then
 fi
 
 json="$(cat /version.json)"
+cat /version.json
 
 function outputValue() {
     local expression="\"$1\":((\"[^\"]+\")|[0-9]+)"
