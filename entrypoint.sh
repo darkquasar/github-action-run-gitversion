@@ -68,13 +68,13 @@ json="$(cat /version.json)"
 
 function outputValue() {
     local expression="\"$1\":((\"[^\"]+\")|[0-9]+)"
-
+    echo "$expression"
     # Get the json line ("key":"value" or "key":value)
     local line=$(echo $json | grep -Eio $expression)
-
+    echo "$line"
     # Split the line and take the value
     local part=$(echo $line | cut -d \: -f 2)
-
+    echo "$part"
     # Remove the " characters
     local value="${part//[\"]}"
 
