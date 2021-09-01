@@ -2,8 +2,8 @@
 FROM gittools/gitversion:5.7.1-ubuntu.20.04-x64-5.0
 
 # Install JQ
-RUN sudo apt update -qq \
-    && sudo apt install -qqy --no-install-recommends jq \
+RUN apt update -qq \
+    && apt install -qqy --no-install-recommends jq \
     && apt-get -qy clean autoremove \
     && rm -rf /var/lib/apt/lists/*
 
