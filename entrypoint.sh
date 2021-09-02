@@ -75,7 +75,7 @@ function OutputValue() {
     for i in ${gitver_arr[@]}
     do
         name=$i
-        value=jq .$i <<< $gitversion_json
+        value=$(jq .$i <<< $gitversion_json)
         echo "::set-output name=$name::$value"
     done    
 }
