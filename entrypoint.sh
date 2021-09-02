@@ -64,52 +64,21 @@ if [ $result -ne 0 ]; then
     exit $result
 fi
 
-json="$(cat /version.json)"
-cat /version.json
+function OutputValue() {
+    # Obtain gitversion generated output in a variable
+    gitversion_json="$(cat /version.json)"
 
-function outputValue() {
-    local expression="\"$1\":((\"[^\"]+\")|[0-9]+)"
-    echo "$expression"
-    # Get the json line ("key":"value" or "key":value)
-    local line=$(echo $json | grep -Eio $expression)
-    echo "$line"
-    # Split the line and take the value
-    local part=$(echo $line | cut -d \: -f 2)
-    echo "$part"
-    # Remove the " characters
-    local value="${part//[\"]}"
-
+    # Capture JSON keys in a bash array
+    mapfile -t gitver_arr < <(jq "keys[]" <<< $gitversion_json)
+    
     # Log the value to the github action output parameter
-    echo "::set-output name=$1::$value"
+    for i in ${gitver_arr[@]}
+    do
+        name=$i
+        value=jq .$i <<< $gitversion_json
+        echo "::set-output name=$name::$value"
+    done    
 }
 
-outputValue "Major"
-outputValue "Minor"
-outputValue "Patch"
-outputValue "PreReleaseTag"
-outputValue "PreReleaseTagWithDash"
-outputValue "PreReleaseLabel"
-outputValue "PreReleaseNumber"
-outputValue "WeightedPreReleaseNumber"
-outputValue "BuildMetaData"
-outputValue "BuildMetaDataPadded"
-outputValue "FullBuildMetaData"
-outputValue "MajorMinorPatch"
-outputValue "SemVer"
-outputValue "LegacySemVer"
-outputValue "LegacySemVerPadded"
-outputValue "AssemblySemVer"
-outputValue "AssemblySemFileVer"
-outputValue "FullSemVer"
-outputValue "InformationalVersion"
-outputValue "BranchName"
-outputValue "Sha"
-outputValue "ShortSha"
-outputValue "NuGetVersionV2"
-outputValue "NuGetVersion"
-outputValue "NuGetPreReleaseTagV2"
-outputValue "NuGetPreReleaseTag"
-outputValue "VersionSourceSha"
-outputValue "CommitsSinceVersionSource"
-outputValue "CommitsSinceVersionSourcePadded"
-outputValue "CommitDate"
+# Let's generate the output values for GitHub Actions
+OutputValue
