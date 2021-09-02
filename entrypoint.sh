@@ -76,6 +76,7 @@ function OutputValue() {
     do
         name=$i
         value=$(jq .$i <<< $gitversion_json)
+        echo "DEBUG Name $name | Value $value"
         echo "::debug::Setting Key: $name to Value: $value"
         echo "::set-output name=$name::$value"
     done    
@@ -83,3 +84,4 @@ function OutputValue() {
 
 # Let's generate the output values for GitHub Actions
 OutputValue
+echo "GitVersionJSON: $gitversion_json"
