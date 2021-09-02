@@ -69,13 +69,13 @@ function OutputValue() {
     gitversion_json="$(cat /version.json)"
 
     # Capture JSON keys in a bash array
-    mapfile -t gitver_arr < <(jq "keys[]" <<< $gitversion_json)
+    mapfile -t gitver_arr < <(jq -r "keys[]" <<< $gitversion_json)
     
     # Log the value to the github action output parameter
     for i in ${gitver_arr[@]}
     do
         name=$i
-        value=$(jq .$i <<< $gitversion_json)
+        value=$(jq -r .$i <<< $gitversion_json)
         echo "DEBUG Name $name | Value $value"
         echo "::debug::Setting Key: $name to Value: $value"
         echo "::set-output name=$name::$value"
