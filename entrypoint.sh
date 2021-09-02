@@ -76,6 +76,7 @@ function OutputValue() {
     do
         name=$i
         value=$(jq .$i <<< $gitversion_json)
+        echo "::debug::Setting Key: $name to Value: $value"
         echo "::set-output name=$name::$value"
     done    
 }
